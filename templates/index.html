@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClarifyAI — Understand Any Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- LEFT PANEL: branding + info -->
+    <div class="side-panel">
+        <div class="brand">
+            <div class="brand-icon">✦</div>
+            <div>
+                <h1 class="brand-name">ClarifyAI</h1>
+                <p class="brand-tagline">Understand any document instantly</p>
+            </div>
+        </div>
+
+        <div class="side-info">
+            <div class="info-step">
+                <span class="step-num">01</span>
+                <div>
+                    <strong>Upload your PDF</strong>
+                    <p>Any document — research paper, contract, report, textbook</p>
+                </div>
+            </div>
+            <div class="info-step">
+                <span class="step-num">02</span>
+                <div>
+                    <strong>Choose your level</strong>
+                    <p>Beginner, student, or expert — answers adapt to you</p>
+                </div>
+            </div>
+            <div class="info-step">
+                <span class="step-num">03</span>
+                <div>
+                    <strong>Ask anything</strong>
+                    <p>Plain English questions, structured answers backed by the document</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-footer">
+            <span class="badge">✦ Free · Powered by OpenRouter</span>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: chat interface -->
+    <div class="chat-panel">
+
+        <!-- Top bar -->
+        <div class="chat-topbar">
+            <div class="doc-status" id="docStatus">
+                <span class="status-dot inactive"></span>
+                <span id="docStatusText">No document loaded</span>
+            </div>
+            <div class="topbar-controls">
+                <select id="level" title="Explanation level">
+                    <option value="10 year old">🧒 Beginner</option>
+                    <option value="college student" selected>🎓 Student</option>
+                    <option value="researcher">🔬 Expert</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Chat messages -->
+        <div class="chat-window" id="chatBox">
+            <div class="welcome-message">
+                <div class="welcome-icon">📄</div>
+                <h2>Upload a PDF to get started</h2>
+                <p>ClarifyAI reads your document and answers questions using only what's inside it.</p>
+            </div>
+        </div>
+
+        <!-- Bottom controls -->
+        <div class="chat-controls">
+
+            <!-- Upload row -->
+            <div class="upload-bar">
+                <input type="file" id="pdfUpload" accept=".pdf" hidden>
+                <button class="btn-upload" onclick="document.getElementById('pdfUpload').click()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Choose PDF
+                </button>
+                <span class="file-name" id="fileName">No file selected</span>
+                <button class="btn-process" id="processBtn" onclick="uploadPDF()" disabled>
+                    Process
+                </button>
+            </div>
+
+            <!-- Question input row -->
+            <div class="input-bar">
+                <input
+                    type="text"
+                    id="question"
+                    placeholder="Ask a question about your document..."
+                    autocomplete="off"
+                    disabled
+                />
+                <button class="btn-send" id="sendBtn" onclick="sendMessage()" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

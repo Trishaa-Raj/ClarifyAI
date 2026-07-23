@@ -1,0 +1,564 @@
+/* ============================================================
+   ClarifyAI — Stylesheet
+   Design: dark left panel + light chat panel split layout
+   Fonts: Sora (headings) + Inter (body)
+============================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── Tokens ── */
+:root {
+    --accent:       #7c6fff;
+    --accent-light: #a89eff;
+    --accent-glow:  rgba(124, 111, 255, 0.18);
+    --panel-dark:   #0e0e14;
+    --panel-chat:   #f7f7fb;
+    --surface:      #ffffff;
+    --border:       #e4e4f0;
+    --text-primary: #0f0f1a;
+    --text-secondary: #6b7280;
+    --text-muted:   #9ca3af;
+    --success:      #22c55e;
+    --error:        #ef4444;
+    --user-bubble:  #7c6fff;
+    --bot-bubble:   #ffffff;
+    --radius-lg:    16px;
+    --radius-md:    10px;
+    --radius-sm:    6px;
+    --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md:    0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg:    0 12px 40px rgba(0,0,0,0.15);
+    --font-display: 'Sora', sans-serif;
+    --font-body:    'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--panel-dark);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ============================================================
+   APP SHELL — two column layout
+============================================================ */
+.app-shell {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* ============================================================
+   LEFT SIDE PANEL
+============================================================ */
+.side-panel {
+    width: 300px;
+    min-width: 300px;
+    background: var(--panel-dark);
+    display: flex;
+    flex-direction: column;
+    padding: 36px 28px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle glow at top */
+.side-panel::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(124,111,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(124,111,255,0.4);
+}
+
+.brand-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+}
+
+.brand-tagline {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* Steps */
+.side-info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    flex: 1;
+}
+
+.info-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.step-num {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(124,111,255,0.12);
+    border: 1px solid rgba(124,111,255,0.25);
+    border-radius: 6px;
+    padding: 3px 7px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.info-step strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 4px;
+}
+
+.info-step p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.55;
+}
+
+/* Footer badge */
+.side-footer {
+    margin-top: 32px;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 5px 12px;
+}
+
+/* ============================================================
+   RIGHT CHAT PANEL
+============================================================ */
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel-chat);
+    overflow: hidden;
+}
+
+/* ── Top bar ── */
+.chat-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    min-height: 58px;
+}
+
+.doc-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-dot.inactive { background: #d1d5db; }
+.status-dot.loading  { background: #f59e0b; animation: pulse 1s infinite; }
+.status-dot.active   { background: var(--success); }
+.status-dot.error    { background: var(--error); }
+
+.topbar-controls select {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--panel-chat);
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+}
+
+.topbar-controls select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ── Chat window ── */
+.chat-window {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+}
+
+/* Welcome state */
+.welcome-message {
+    margin: auto;
+    text-align: center;
+    max-width: 340px;
+    padding: 40px 0;
+}
+
+.welcome-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.welcome-message h2 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.welcome-message p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ── Messages ── */
+.message {
+    max-width: 82%;
+    border-radius: var(--radius-lg);
+    font-size: 13.5px;
+    line-height: 1.65;
+    animation: slideIn 0.18s ease-out;
+    word-break: break-word;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: var(--user-bubble);
+    color: #ffffff;
+    padding: 11px 16px;
+    border-bottom-right-radius: var(--radius-sm);
+    box-shadow: 0 2px 12px rgba(124,111,255,0.3);
+}
+
+.message.bot {
+    align-self: flex-start;
+    background: var(--bot-bubble);
+    color: var(--text-primary);
+    padding: 16px;
+    border-bottom-left-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    max-width: 90%;
+}
+
+.message.bot.status-msg {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    padding: 4px 0;
+}
+
+.message.bot.error-msg {
+    background: #fff5f5;
+    border-color: #fecaca;
+    color: var(--error);
+}
+
+/* ── Structured answer sections ── */
+.answer-section {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.answer-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.answer-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.answer-section p {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    line-height: 1.65;
+}
+
+.answer-section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.answer-section ul li {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding-left: 14px;
+    position: relative;
+}
+
+.answer-section ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Typing indicator */
+.typing-indicator {
+    align-self: flex-start;
+    background: var(--bot-bubble);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-sm);
+    padding: 14px 18px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    animation: slideIn 0.18s ease-out;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Scrollbar */
+.chat-window::-webkit-scrollbar { width: 5px; }
+.chat-window::-webkit-scrollbar-thumb {
+    background: rgba(124,111,255,0.2);
+    border-radius: 10px;
+}
+
+/* ── Bottom controls ── */
+.chat-controls {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Upload bar */
+.upload-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-upload {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn-upload:hover {
+    background: var(--accent-glow);
+}
+
+.file-name {
+    flex: 1;
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-name.selected {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.btn-process {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(124,111,255,0.3);
+}
+
+.btn-process:hover:not(:disabled) {
+    background: #6a5ef5;
+    transform: translateY(-1px);
+}
+
+.btn-process:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Input bar */
+.input-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#question {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    padding: 12px 16px;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--border);
+    background: var(--panel-chat);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#question::placeholder { color: var(--text-muted); }
+
+#question:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    background: white;
+}
+
+#question:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-send {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(124,111,255,0.35);
+}
+
+.btn-send:hover:not(:disabled) {
+    background: #6a5ef5;
+    transform: scale(1.06);
+}
+
+.btn-send:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ── Animations ── */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40%           { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
